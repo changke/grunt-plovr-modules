@@ -1,6 +1,6 @@
 {
   "name": "grunt-plovr-modules",
-  "description": "The best Grunt plugin ever.",
+  "description": "Grunt wrapper for plovr with focus on creating modules.",
   "version": "0.1.0",
   "homepage": "https://github.com/changke/grunt-plovr-modules",
   "author": {
@@ -36,5 +36,8 @@
     "gruntplugin",
     "plovr",
     "googleclosure"
-  ]
+  ],
+  "dependencies": {
+    "shelljs": "^0.7.4"
+  }
 }

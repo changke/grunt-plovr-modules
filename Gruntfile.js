@@ -25,26 +25,59 @@ module.exports = function(grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp']
+      tests: ['tmp', './test/*.min.js']
     },
 
     // Configuration to be run (and then tested).
     plovr_modules: {
-      default_options: {
-        options: {
+      options: {
+        id: 'pm',
+        paths: './test/fixtures',
+        mode: 'SIMPLE', // RAW|WHITESPACE|SIMPLE|ADVANCED
+        level: 'DEFAULT', // QUIET|DEFAULT|VERBOSE
+        define: {
+          'goog.DEBUG': false
         },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+        // modules
+        'module-output-path': './test/pm.%s.min.js',
+        'module-production-uri': 'pm.%s.min.js',
+        'global-scope-name': '__pm__',
+
+        MODULE_CONFIG: {
+          entry: './test/fixtures/entry.js',
+          allModuleFiles: './test/fixtures/*/*.{js,soy}',
+          modules: [
+            {
+              name: 'moduleone',
+              files: './test/fixtures/mod1/*.{js,soy}',
+              deps: ['core']
+            },
+            {
+              name: 'moduletwo',
+              files: './test/fixtures/mod2/*.{js,soy}',
+              deps: ['core']
+            },
+            {
+              name: 'modulethree',
+              files: './test/fixtures/mod3/*.{js,soy}',
+              deps: ['core']
+            }
+          ]
         }
       },
-      custom_options: {
+
+      mode_simple: {
+        options: {},
+        src: [null],
+        dest: './test/plovr-config-simple.json'
+      },
+
+      mode_advanced: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!'
+          mode: 'ADVANCED'
         },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
+        src: [null],
+        dest: './test/plovr-config-advanced.json'
       }
     },
 
@@ -65,7 +98,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'plovr_modules', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'plovr_modules']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
