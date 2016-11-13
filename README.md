@@ -1,6 +1,6 @@
 # grunt-plovr-modules
 
-> The best Grunt plugin ever.
+> Grunt wrapper for plovr with focus on creating modules.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -36,54 +36,38 @@ grunt.initConfig({
 ```
 
 ### Options
+The most standard plovr options (except "modules") can be used identically as in [plovr's configuration](http://plovr.com/options.html).
 
-#### options.separator
+#### options.MODULE_CONFIG
+Type: `Object`
+
+##### options.MODULE_CONFIG.entry
 Type: `String`
-Default value: `',  '`
 
-A string value that is used to do something with whatever.
+Path of the file that contains the entry point of your JavaScript application.
 
-#### options.punctuation
+##### options.MODULE_CONFIG.allModuleFiles
 Type: `String`
-Default value: `'.'`
 
-A string value that is used to do something else with whatever else.
+Path of the all the JS files (incl. external module files), use globbing patterns. Files that are NOT present in external module definitions will form a "core" module which all external modules depend on.
+
+##### options.MODULE_CONFIG.modules
+Type `Array`
+
+An array contains definitions of external modules. Each module definition is an object:
+```js
+{
+  name: 'module_name',
+  files: 'module files in globbing pattern'
+  deps: ['core'] // "core" is the default dependency
+}
+```
 
 ### Usage Examples
+Please refer to [the Gruntfile](https://github.com/changke/grunt-plovr-modules/blob/master/Gruntfile.js) of this project.
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  plovr_modules: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  plovr_modules: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+## Credit
+Initial idea and code by [Michael](https://github.com/ITspirit/grunt-plovr-extended).
 
 ## Release History
-_(Nothing yet)_
+* **v0.1.0** First working version.
